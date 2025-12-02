@@ -1,0 +1,4 @@
+node_modules/
+student_management.db
+*.log
+.DS_Store

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .emergency-contact {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            position: relative;
+        }
+
+        .remove-contact {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .remove-contact:hover {
+            background: #c82333;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            margin-left: 10px;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-add {
+            background: #28a745;
+            color: white;
+            margin-top: 10px;
+        }
+
+        .btn-add:hover {
+            background: #218838;
+        }
+
+        .button-group {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .student-list {
+            margin-top: 40px;
+        }
+
+        .student-card {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+
+        .student-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .student-info {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .required {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Profile Registration</h1>
+        
+        <div id="message" class="message"></div>
+
+        <form id="studentForm">
+            <!-- Student Information Section -->
+            <div class="section">
+                <h2>Student Information</h2>
+                
+                <div class="form-group">
+                    <label for="studentName">Full Name <span class="required">*</span></label>
+                    <input type="text" id="studentName" name="studentName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="grade">Grade/Class <span class="required">*</span></label>
+                    <input type="text" id="grade" name="grade" placeholder="e.g., 5th Grade" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="studentPhone">Contact Phone</label>
+                    <input type="tel" id="studentPhone" name="studentPhone" placeholder="(123) 456-7890">
+                </div>
+
+                <div class="form-group">
+                    <label for="studentEmail">Contact Email</label>
+                    <input type="email" id="studentEmail" name="studentEmail" placeholder="student@example.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="enrollmentStatus">Enrollment Status</label>
+                    <select id="enrollmentStatus" name="enrollmentStatus">
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                        <option value="Pending">Pending</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Guardian/Parent Information Section -->
+            <div class="section">
+                <h2>Guardian/Parent Information</h2>
+                
+                <div class="form-group">
+                    <label for="guardianName">Full Name <span class="required">*</span></label>
+                    <input type="text" id="guardianName" name="guardianName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="relationship">Relationship to Student <span class="required">*</span></label>
+                    <select id="relationship" name="relationship" required>
+                        <option value="">Select...</option>
+                        <option value="Mother">Mother</option>
+                        <option value="Father">Father</option>
+                        <option value="Legal Guardian">Legal Guardian</option>
+                        <option value="Grandparent">Grandparent</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="guardianPhone">Phone Number <span class="required">*</span></label>
+                    <input type="tel" id="guardianPhone" name="guardianPhone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="guardianEmail">Email Address</label>
+                    <input type="email" id="guardianEmail" name="guardianEmail">
+                </div>
+
+                <div class="form-group">
+                    <label for="guardianAddress">Home Address</label>
+                    <textarea id="guardianAddress" name="guardianAddress" placeholder="Street, City, State, ZIP"></textarea>
+                </div>
+            </div>
+
+            <!-- Emergency Contacts Section -->
+            <div class="section">
+                <h2>Emergency Contacts</h2>
+                <p style="color: #666; margin-bottom: 15px;">Add at least one emergency contact (other than guardian)</p>
+                
+                <div id="emergencyContactsContainer"></div>
+                
+                <button type="button" class="btn btn-add" onclick="addEmergencyContact()">+ Add Emergency Contact</button>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="button-group">
+                <button type="submit" class="btn btn-primary">Submit Registration</button>
+                <button type="button" class="btn btn-secondary" onclick="resetForm()">Clear Form</button>
+            </div>
+        </form>
+
+        <!-- Display registered students -->
+        <div class="student-list">
+            <h2>Registered Students</h2>
+            <div id="studentListContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        let emergencyContactCount = 0;
+
+        // Add emergency contact fields
+        function addEmergencyContact() {
+            emergencyContactCount++;
+            const container = document.getElementById('emergencyContactsContainer');
+            const contactDiv = document.createElement('div');
+            contactDiv.className = 'emergency-contact';
+            contactDiv.id = `contact-${emergencyContactCount}`;
+            contactDiv.innerHTML = `
+                <button type="button" class="remove-contact" onclick="removeEmergencyContact(${emergencyContactCount})">Remove</button>
+                <h3 style="margin-bottom: 15px; color: #555;">Emergency Contact ${emergencyContactCount}</h3>
+                
+                <div class="form-group">
+                    <label>Name <span class="required">*</span></label>
+                    <input type="text" name="emergencyName[]" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Relationship</label>
+                    <input type="text" name="emergencyRelationship[]" placeholder="e.g., Aunt, Uncle, Family Friend">
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number <span class="required">*</span></label>
+                    <input type="tel" name="emergencyPhone[]" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" name="emergencyEmail[]">
+                </div>
+            `;
+            container.appendChild(contactDiv);
+        }
+
+        // Remove emergency contact
+        function removeEmergencyContact(id) {
+            const element = document.getElementById(`contact-${id}`);
+            if (element) {
+                element.remove();
+            }
+        }
+
+        // Show message
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = text;
+            messageDiv.className = `message ${type}`;
+            messageDiv.style.display = 'block';
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('studentForm').reset();
+            document.getElementById('emergencyContactsContainer').innerHTML = '';
+            emergencyContactCount = 0;
+        }
+
+        // Handle form submission
+        document.getElementById('studentForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            // Collect form data
+            const formData = {
+                student: {
+                    name: document.getElementById('studentName').value,
+                    grade: document.getElementById('grade').value,
+                    contactPhone: document.getElementById('studentPhone').value,
+                    contactEmail: document.getElementById('studentEmail').value,
+                    enrollmentStatus: document.getElementById('enrollmentStatus').value
+                },
+                guardian: {
+                    name: document.getElementById('guardianName').value,
+                    relationship: document.getElementById('relationship').value,
+                    phone: document.getElementById('guardianPhone').value,
+                    email: document.getElementById('guardianEmail').value,
+                    address: document.getElementById('guardianAddress').value
+                },
+                emergencyContacts: []
+            };
+
+            // Collect emergency contacts
+            const names = document.getElementsByName('emergencyName[]');
+            const relationships = document.getElementsByName('emergencyRelationship[]');
+            const phones = document.getElementsByName('emergencyPhone[]');
+            const emails = document.getElementsByName('emergencyEmail[]');
+
+            for (let i = 0; i < names.length; i++) {
+                formData.emergencyContacts.push({
+                    name: names[i].value,
+                    relationship: relationships[i].value,
+                    phone: phones[i].value,
+                    email: emails[i].value
+                });
+            }
+
+            try {
+                // Send data to backend
+                const response = await fetch('/api/students', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showMessage('Student profile registered successfully!', 'success');
+                    resetForm();
+                    loadStudents(); // Refresh the student list
+                } else {
+                    showMessage('Error: ' + result.error, 'error');
+                }
+            } catch (error) {
+                showMessage('Failed to submit form. Please try again.', 'error');
+                console.error('Error:', error);
+            }
+        });
+
+        // Load and display registered students
+        async function loadStudents() {
+            try {
+                const response = await fetch('/api/students');
+                const students = await response.json();
+
+                const container = document.getElementById('studentListContainer');
+                
+                if (students.length === 0) {
+                    container.innerHTML = '<p style="color: #666;">No students registered yet.</p>';
+                    return;
+                }
+
+                container.innerHTML = students.map(student => `
+                    <div class="student-card">
+                        <h3>${student.name}</h3>
+                        <div class="student-info">
+                            <p><strong>Grade:</strong> ${student.grade}</p>
+                            <p><strong>Status:</strong> ${student.enrollment_status}</p>
+                            ${student.contact_phone ? `<p><strong>Phone:</strong> ${student.contact_phone}</p>` : ''}
+                            ${student.guardian_name ? `<p><strong>Guardian:</strong> ${student.guardian_name} (${student.relationship})</p>` : ''}
+                            ${student.guardian_phone ? `<p><strong>Guardian Phone:</strong> ${student.guardian_phone}</p>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading students:', error);
+            }
+        }
+
+        // Add one emergency contact by default
+        addEmergencyContact();
+
+        // Load students on page load
+        loadStudents();
+    </script>
+</body>
+</html>
